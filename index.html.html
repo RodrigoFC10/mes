@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Un Mes Contigo 💕</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Lato:wght@300;400&display=swap" rel="stylesheet"/>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    :root {
+      --rose:  #C9627A;
+      --blush: #F2D0D8;
+      --cream: #FDF6F0;
+      --mauve: #7D4E57;
+      --gold:  #D4A45A;
+      --dark:  #2E1A20;
+      --light: #FAF0F4;
+    }
+    html { scroll-behavior: smooth; }
+    body { background: var(--cream); color: var(--dark); font-family: 'Lato', sans-serif; font-weight: 300; overflow-x: hidden; }
+
+    /* HERO */
+    .hero {
+      min-height: 100vh;
+      background: linear-gradient(160deg, var(--mauve) 0%, var(--rose) 55%, var(--gold) 100%);
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      text-align: center; padding: 2rem; position: relative; overflow: hidden;
+    }
+    .petal {
+      position: absolute; border-radius: 0 70% 0 70%;
+      background: rgba(255,255,255,0.18); animation: drift linear infinite;
+    }
+    @keyframes drift {
+      0%   { transform: translateY(-10vh) rotate(0deg); opacity: 0; }
+      10%  { opacity: 1; }
+      90%  { opacity: 0.6; }
+      100% { transform: translateY(110vh) rotate(720deg); opacity: 0; }
+    }
+    .hero-eyebrow { font-size: .85rem; letter-spacing: .35em; text-transform: uppercase; color: rgba(255,255,255,.75); margin-bottom: 1.2rem; }
+    .hero-title { font-family: 'Playfair Display', serif; font-size: clamp(3.5rem,12vw,8rem); font-weight: 700; color: #fff; line-height: 1; text-shadow: 0 4px 30px rgba(0,0,0,.2); }
+    .hero-title span { display: block; font-style: italic; font-weight: 400; font-size: clamp(2rem,7vw,4.5rem); color: var(--blush); margin-top: .3em; }
+    .hero-date { margin-top: 2rem; font-size: .95rem; letter-spacing: .15em; color: rgba(255,255,255,.8); }
+    .scroll-hint { position: absolute; bottom: 2rem; display: flex; flex-direction: column; align-items: center; gap: .5rem; color: rgba(255,255,255,.6); font-size: .75rem; letter-spacing: .1em; text-transform: uppercase; animation: bounce 2s ease-in-out infinite; }
+    .scroll-hint svg { width: 20px; }
+    @keyframes bounce { 0%,100% { transform: translateY(0); } 50% { transform: translateY(6px); } }
+
+    /* COUNTER */
+    .counter-section { background: var(--light); padding: 5rem 2rem; text-align: center; }
+    .section-label { font-size: .8rem; letter-spacing: .3em; text-transform: uppercase; color: var(--rose); margin-bottom: 1rem; }
+    .counter-grid { display: flex; justify-content: center; gap: 2.5rem; flex-wrap: wrap; margin-top: 2.5rem; }
+    .counter-card { background: #fff; border: 1px solid var(--blush); border-radius: 18px; padding: 2rem 2.5rem; min-width: 130px; box-shadow: 0 4px 24px rgba(201,98,122,.08); }
+    .counter-number { font-family: 'Playfair Display', serif; font-size: 3.5rem; font-weight: 700; color: var(--rose); line-height: 1; }
+    .counter-label { font-size: .78rem; letter-spacing: .2em; text-transform: uppercase; color: var(--mauve); margin-top: .4rem; }
+
+    /* LETTER */
+    .letter-section { max-width: 680px; margin: 0 auto; padding: 5rem 2rem; text-align: center; }
+    .letter-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem,5vw,3rem); font-style: italic; color: var(--mauve); margin-bottom: 2rem; }
+    .letter-body { font-size: 1.05rem; line-height: 1.9; color: #5a3a42; }
+    .letter-body p + p { margin-top: 1.2em; }
+    .letter-signature { margin-top: 2.5rem; font-family: 'Playfair Display', serif; font-size: 1.6rem; font-style: italic; color: var(--rose); }
+
+    /* GALLERY */
+    .gallery-section { background: var(--dark); padding: 5rem 2rem; }
+    .gallery-section .section-label { color: var(--gold); text-align: center; }
+    .gallery-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,2.8rem); color: #fff; text-align: center; margin-bottom: 2.5rem; }
+    .gallery-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px,1fr)); gap: 1rem; max-width: 1100px; margin: 0 auto; }
+    .photo-slot { aspect-ratio: 1; border-radius: 14px; overflow: hidden; position: relative; background: #3a2028; transition: transform .25s, box-shadow .25s; }
+    .photo-slot:hover { transform: scale(1.03); box-shadow: 0 12px 40px rgba(0,0,0,.5); }
+    .photo-slot img { width: 100%; height: 100%; object-fit: cover; display: block; cursor: pointer; }
+
+    /* TIMELINE */
+    .timeline-section { padding: 5rem 2rem; background: var(--light); }
+    .timeline-section .section-label { text-align: center; }
+    .timeline-heading { font-family: 'Playfair Display', serif; font-size: clamp(1.8rem,4vw,2.6rem); text-align: center; color: var(--mauve); margin-bottom: 3rem; }
+    .timeline { max-width: 620px; margin: 0 auto; position: relative; }
+    .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 2px; background: linear-gradient(to bottom, var(--blush), var(--rose)); transform: translateX(-50%); }
+    .tl-item { display: flex; align-items: flex-start; margin-bottom: 2.5rem; position: relative; }
+    .tl-item:nth-child(odd) { flex-direction: row-reverse; }
+    .tl-dot { position: absolute; left: 50%; top: .3rem; transform: translateX(-50%); width: 14px; height: 14px; background: var(--rose); border: 3px solid var(--cream); border-radius: 50%; box-shadow: 0 0 0 2px var(--rose); z-index: 1; }
+    .tl-content { width: calc(50% - 28px); background: #fff; border: 1px solid var(--blush); border-radius: 14px; padding: 1.1rem 1.4rem; box-shadow: 0 2px 16px rgba(201,98,122,.07); }
+    .tl-item:nth-child(odd)  .tl-content { margin-left: auto; }
+    .tl-item:nth-child(even) .tl-content { margin-right: auto; }
+    .tl-date  { font-size: .75rem; letter-spacing: .15em; text-transform: uppercase; color: var(--gold); margin-bottom: .3rem; }
+    .tl-title { font-family: 'Playfair Display', serif; font-size: 1rem; color: var(--mauve); font-weight: 700; }
+    .tl-desc  { font-size: .88rem; color: #7a5560; margin-top: .3rem; line-height: 1.6; }
+
+    /* LIGHTBOX */
+    .lightbox { display: none; position: fixed; inset: 0; background: rgba(0,0,0,.92); z-index: 1000; align-items: center; justify-content: center; }
+    .lightbox.open { display: flex; }
+    .lightbox img { max-width: 90vw; max-height: 88vh; border-radius: 10px; }
+    .lightbox-close { position: absolute; top: 1.5rem; right: 1.5rem; background: none; border: none; color: #fff; font-size: 2rem; cursor: pointer; }
+
+    /* FOOTER */
+    footer { background: var(--mauve); color: rgba(255,255,255,.65); text-align: center; padding: 2.5rem 1rem; font-size: .82rem; letter-spacing: .08em; }
+    footer .heart { color: var(--blush); font-size: 1.1rem; }
+
+    @media (max-width: 500px) {
+      .timeline::before { left: 20px; }
+      .tl-item, .tl-item:nth-child(odd) { flex-direction: column; padding-left: 44px; }
+      .tl-dot { left: 20px; }
+      .tl-content, .tl-item:nth-child(odd) .tl-content { width: 100%; margin: 0; }
+    }
+    @media (prefers-reduced-motion: reduce) { .petal, .scroll-hint { animation: none; } }
+  </style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero" id="hero">
+  <p class="hero-eyebrow">✦ Un mes lleno de amor ✦</p>
+  <h1 class="hero-title">
+    30 Días
+    <span>contigo</span>
+  </h1>
+  <!-- FECHA DE INICIO: cambia esta fecha por la real de tu aniversario -->
+  <p class="hero-date">Desde el 13 de mayo de 2026</p>
+
+  <div class="scroll-hint">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+    descubrir
+  </div>
+</section>
+
+<!-- COUNTER -->
+<section class="counter-section">
+  <p class="section-label">Llevamos juntos</p>
+  <h2 style="font-family:'Playfair Display',serif;font-size:clamp(1.5rem,4vw,2.2rem);color:var(--mauve);">Un mes de momentos perfectos</h2>
+  <div class="counter-grid">
+    <div class="counter-card">
+      <div class="counter-number" id="cDays">—</div>
+      <div class="counter-label">Días</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-number" id="cHours">—</div>
+      <div class="counter-label">Horas</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-number" id="cMin">—</div>
+      <div class="counter-label">Minutos</div>
+    </div>
+    <div class="counter-card">
+      <div class="counter-number">∞</div>
+      <div class="counter-label">Sonrisas</div>
+    </div>
+  </div>
+</section>
+
+<!-- LETTER -->
+<section class="letter-section">
+  <p class="section-label">Para ti</p>
+  <h2 class="letter-title">Mi carta de amor</h2>
+  <div class="letter-body">
+    <!-- ✏️ CAMBIA AQUÍ EL TEXTO DE LA CARTA -->
+    <p>Hace exactamente un mes, algo en mi mundo cambió para siempre. Fue cuando tú llegaste, con esa sonrisa que todavía me hace el estómago pequeño.</p>
+    <p>Cada día contigo ha sido una aventura, una carcajada, un abrazo que nunca quiero soltar. Treinta días que ya se sienten como toda una vida, y que me hacen querer los próximos trescientos, tres mil, tres millones.</p>
+    <p>Gracias por hacer que cada momento ordinario se vuelva extraordinario. Por ser mi persona favorita en cualquier lugar.</p>
+    <p>Te quiero hoy, mañana y todos los días que vengan.</p>
+  </div>
+  <!-- ✏️ CAMBIA AQUÍ TU NOMBRE O UN APODO -->
+  <p class="letter-signature">Con todo mi amor 💕</p>
+</section>
+
+<!-- GALLERY -->
+<section class="">
+  <p class="section-label">Nuestros momentos</p>
+  <h2 class="gallery-heading">Galería de Recuerdos</h2>
+  <div class="gallery-grid" id="galleryGrid">
+
+    <div class="photo-slot">
+  <img src="WhatsApp Image 2026-06-03 at 11.33.10 PM.jpeg" alt="descripción" onclick="openLightbox(this.src)"/>
+</div>
+
+<div class="photo-slot">
+  <img src="WhatsApp Image 2026-06-09 at 10.55.45 PM.jpeg" alt="descripción" onclick="openLightbox(this.src)"/>
+</div>
+
+<div class="photo-slot">
+  <img src="WhatsApp Image 2026-05-27 at 6.41.27 PM.jpeg" alt="descripción" onclick="openLightbox(this.src)"/>
+</div>
+
+<div class="photo-slot">
+  <img src="WhatsApp Image 2026-06-10 at 5.37.35 PM.jpeg" alt="descripción" onclick="openLightbox(this.src)"/>
+</div>
+
+<div class="photo-slot">
+  <img src="WhatsApp Image 2026-06-10 at 8.49.23 PM.jpeg" alt="descripción" onclick="openLightbox(this.src)"/>
+</div>
+    <!--
+      ✏️ INSTRUCCIONES PARA AGREGAR FOTOS:
+      1. Pon tus imágenes en la misma carpeta que este archivo HTML
+      2. Copia y pega uno de estos bloques por cada foto:
+
+      <div class="photo-slot">
+        <img src="foto1.jpg" alt="descripción" onclick="openLightbox(this.src)"/>
+      </div>
+
+      3. Cambia "foto1.jpg" por el nombre real de tu imagen
+      ─────────────────────────────────────────────── -->
+
+    <!-- EJEMPLO — borra este bloque y pon tus fotos reales -->
+
+
+  </div>
+</section>
+
+<!-- LIGHTBOX -->
+<div class="lightbox" id="lightbox" onclick="closeLightbox()">
+  <button class="lightbox-close">✕</button>
+  <img id="lightboxImg" src="" alt="foto ampliada"/>
+</div>
+
+<!-- TIMELINE -->
+<section class="timeline-section">
+  <p class="section-label">Nuestra historia</p>
+  <h2 class="timeline-heading">Momentos que no olvidaremos</h2>
+  <div class="timeline">
+
+    <!-- ✏️ CAMBIA LAS FECHAS, TÍTULOS Y DESCRIPCIONES AQUÍ -->
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-date">Día 1</p>
+        <p class="tl-title">El primer encuentro</p>
+        <p class="tl-desc">El día que todo comenzó y que nunca voy a olvidar.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-date">Primera semana</p>
+        <p class="tl-title">Primera cita</p>
+        <p class="tl-desc">Risas, nervios y mucha magia.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-date">Día 15</p>
+        <p class="tl-title">Un momento especial</p>
+        <p class="tl-desc">Cambia esto por tu recuerdo favorito de estas semanas.</p>
+      </div>
+    </div>
+
+    <div class="tl-item">
+      <div class="tl-dot"></div>
+      <div class="tl-content">
+        <p class="tl-date">Hoy ✦</p>
+        <p class="tl-title">¡Un mes juntos!</p>
+        <p class="tl-desc">El primero de muchos aniversarios que vienen.</p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<!-- ✏️ CAMBIA EL NOMBRE DE TU NOVIA AQUÍ -->
+<footer>
+  Hecho con <span class="heart">♥</span> para el amor de mi vida &nbsp;·&nbsp; Un mes juntos
+</footer>
+
+<script>
+  /* ── Pétalos animados ── */
+  const hero = document.getElementById('hero');
+  for (let i = 0; i < 22; i++) {
+    const p = document.createElement('div');
+    p.className = 'petal';
+    const s = 6 + Math.random() * 14;
+    p.style.cssText = `width:${s}px;height:${s}px;left:${Math.random()*100}%;top:${Math.random()*-20}%;animation-duration:${7+Math.random()*10}s;animation-delay:${Math.random()*10}s;opacity:${.1+Math.random()*.3}`;
+    hero.appendChild(p);
+  }
+
+  /* ── Contador desde fecha de inicio ──
+     ✏️ CAMBIA ESTA FECHA por la fecha real en que empezaron a salir
+     Formato: 'YYYY-MM-DD'  */
+  const START = new Date('2025-05-11');
+  function updateCounter() {
+    const diff = Date.now() - START;
+    document.getElementById('cDays').textContent  = Math.floor(diff / 86400000).toLocaleString('es');
+    document.getElementById('cHours').textContent = Math.floor(diff / 3600000).toLocaleString('es');
+    document.getElementById('cMin').textContent   = Math.floor(diff / 60000).toLocaleString('es');
+  }
+  updateCounter();
+  setInterval(updateCounter, 60000);
+
+  /* ── Lightbox ── */
+  function openLightbox(src) {
+    document.getElementById('lightboxImg').src = src;
+    document.getElementById('lightbox').classList.add('open');
+  }
+  function closeLightbox() {
+    document.getElementById('lightbox').classList.remove('open');
+  }
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+</script>
+</body>
+</html>
