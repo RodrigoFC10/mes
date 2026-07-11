@@ -336,10 +336,7 @@ footer span{color:var(--pink)}
 
 <!-- ════ MUSIC ════ -->
 <button id="music-btn" onclick="toggleMusic()" title="Música">🎵</button>
-<audio id="bg-music" loop>
-  <!-- ✏️ PON AQUÍ LA URL DE UNA CANCIÓN (mp3 directo) si tienes una -->
-  <!-- <source src="cancion.mp3" type="audio/mpeg"> -->
-</audio>
+<audio id="bg-music" loop src="musica.mp3"></audio>
 
 <!-- ════ MAIN ════ -->
 <main>
@@ -415,31 +412,12 @@ footer span{color:var(--pink)}
       <h2 class="s-title">Galería de Recuerdos</h2>
     </div>
     <div class="g-grid rv">
-      <!--
-      ✏️ PARA AGREGAR FOTOS:
-      <div class="g-slot">
-        <img src="foto1.jpeg" alt="" onclick="openLB(this.src)"/>
-      </div>
-      -->
-<div class="photo-slot">
-  <img src="WhatsApp%20Image%202026-06-03%20at%2011.33.10%20PM.jpeg" alt="" onclick="openLightbox(this.src)"/>
-</div>
-
-<div class="photo-slot">
-  <img src="WhatsApp%20Image%202026-06-09%20at%2010.55.45%20PM.jpeg" alt="" onclick="openLightbox(this.src)"/>
-</div>
-
-<div class="photo-slot">
-  <img src="WhatsApp%20Image%202026-05-27%20at%206.41.27%20PM.jpeg" alt="" onclick="openLightbox(this.src)"/>
-</div>
-
-<div class="photo-slot">
-  <img src="WhatsApp%20Image%202026-06-10%20at%205.37.35%20PM.jpeg" alt="" onclick="openLightbox(this.src)"/>
-</div>
-
-<div class="photo-slot">
-  <img src="WhatsApp%20Image%202026-06-10%20at%208.49.23%20PM.jpeg" alt="" onclick="openLightbox(this.src)"/>
-</div>
+      <div class="g-slot"><img src="WhatsApp%20Image%202026-06-03%20at%2011.33.10%20PM.jpeg" alt="" onclick="openLB(this.src)"/></div>
+      <div class="g-slot"><img src="WhatsApp%20Image%202026-06-09%20at%2010.55.45%20PM.jpeg" alt="" onclick="openLB(this.src)"/></div>
+      <div class="g-slot"><img src="WhatsApp%20Image%202026-05-27%20at%206.41.27%20PM.jpeg" alt="" onclick="openLB(this.src)"/></div>
+      <div class="g-slot"><img src="WhatsApp%20Image%202026-06-10%20at%205.37.35%20PM.jpeg" alt="" onclick="openLB(this.src)"/></div>
+      <div class="g-slot"><img src="WhatsApp%20Image%202026-06-10%20at%208.49.23%20PM.jpeg" alt="" onclick="openLB(this.src)"/></div>
+    </div>
   </div>
 </section>
 
