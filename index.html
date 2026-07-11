@@ -13,7 +13,7 @@
   --gold:#C8892E;--ink:#1A0509;
 }
 html{scroll-behavior:smooth}
-body{background:var(--dark);color:#fff;font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden}
+body{background:var(--dark);color:#fff;font-family:'DM Sans',sans-serif;font-weight:300;overflow-x:hidden;overflow-y:auto}
 
 /* ══ INTRO SCREEN ══ */
 #intro{
@@ -569,14 +569,12 @@ launch();setInterval(launch,1200);
 /* ════ ENTRAR A LA PÁGINA ════ */
 function enterPage(){
   const intro=document.getElementById('intro');
-  intro.classList.add('out');
-  document.body.style.overflow='auto';
-  setTimeout(()=>{
-    intro.style.display='none';
-  },1300);
+  intro.style.transition='opacity 1s ease';
+  intro.style.opacity='0';
+  intro.style.pointerEvents='none';
+  setTimeout(()=>{ intro.style.display='none'; },1100);
   for(let i=0;i<6;i++) setTimeout(()=>spawnFirework(),i*250);
 }
-document.body.style.overflow='hidden';
 
 /* ════ PÉTALOS ════ */
 const pc=document.getElementById('petal-canvas');
@@ -635,8 +633,7 @@ function spawnFirework(){
   }
 }
 function animMFW(){
-  mx.fillStyle='rgba(0,0,0,.15)';
-  mx.fillRect(0,0,mc.width,mc.height);
+  mx.clearRect(0,0,mc.width,mc.height);
   mainFW=mainFW.filter(s=>{
     s.x+=s.vx;s.y+=s.vy;s.vy+=.09;s.alpha-=.016;
     mx.globalAlpha=Math.max(0,s.alpha);
