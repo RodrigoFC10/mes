@@ -209,7 +209,7 @@ section{position:relative}
 
 /* ══ GALLERY ══ */
 .gallery-bg{background:linear-gradient(180deg,var(--dark),#2d0510)}
-.g-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:1rem;margin-top:2.5rem}
+.g-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;margin-top:2.5rem;max-width:800px;margin-left:auto;margin-right:auto}
 .g-slot{
   aspect-ratio:1;border-radius:18px;overflow:hidden;
   position:relative;background:#200810;
@@ -684,11 +684,8 @@ let playing=false;
 function toggleMusic(){
   const a=document.getElementById('bg-music');
   const btn=document.getElementById('music-btn');
-  if(!a.src&&!a.querySelector('source')){
-    btn.textContent='🔇';return;
-  }
   if(playing){a.pause();btn.textContent='🎵';playing=false;}
-  else{a.play().catch(()=>{});btn.textContent='🔊';playing=true;}
+  else{a.play().then(()=>{btn.textContent='🔊';playing=true;}).catch(()=>{btn.textContent='🔇';});}
 }
 </script>
 </body>
