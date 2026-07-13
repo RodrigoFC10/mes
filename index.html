@@ -139,6 +139,30 @@ main{position:relative;z-index:2}
 .rr{opacity:0;transform:translateX(28px);transition:opacity .8s,transform .8s}
 .rr.on{opacity:1;transform:none}
 
+/* ══ TWO MONTHS HERO ══ */
+.two-hero{
+  min-height:100vh;
+  background:linear-gradient(145deg,#3d0a14,var(--wine),#2a0610);
+  position:relative;overflow:hidden;
+  display:flex;align-items:center;justify-content:center;text-align:center;
+}
+#two-canvas{position:absolute;inset:0;pointer-events:none;width:100%;height:100%}
+.two-inner{position:relative;z-index:2;padding:2rem}
+.two-label{font-size:.68rem;letter-spacing:.5em;text-transform:uppercase;color:rgba(242,196,206,.5);margin-bottom:1rem}
+.two-num{
+  font-family:'Cormorant Garamond',serif;
+  font-size:clamp(12rem,40vw,22rem);font-weight:600;line-height:.85;
+  background:linear-gradient(135deg,#fff 0%,var(--petal) 50%,var(--pink) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-shadow:none;
+}
+.two-title{
+  font-family:'Dancing Script',cursive;
+  font-size:clamp(2rem,6vw,4rem);color:#fff;
+  margin-top:-.3em;text-shadow:0 2px 20px rgba(0,0,0,.3);
+}
+.two-sub{font-size:.7rem;letter-spacing:.3em;text-transform:uppercase;color:rgba(242,196,206,.4);margin-top:1.5rem}
+
 /* ══ COUNTER ══ */
 .cnt-bg{background:linear-gradient(160deg,#f5e8e2,var(--cream));text-align:center;border-top:1px solid rgba(107,26,42,.08);border-bottom:1px solid rgba(107,26,42,.08)}
 .cnt-grid{display:flex;justify-content:center;gap:1.2rem;flex-wrap:wrap;margin-top:2.5rem}
@@ -182,11 +206,28 @@ main{position:relative;z-index:2}
 /* ══ TIMELINE ══ */
 .tl-bg{background:linear-gradient(160deg,#f0ddd6,var(--cream))}
 .tl-wrap{max-width:640px;margin:2.5rem auto 0;position:relative}
-.tl-wrap::before{content:'';position:absolute;left:50%;top:0;bottom:0;width:1px;background:linear-gradient(to bottom,transparent,var(--rose) 10%,var(--rose) 90%,transparent);transform:translateX(-50%)}
-.tl-item{display:flex;align-items:flex-start;margin-bottom:2.5rem;position:relative}
+
+/* hilo rojo como canvas */
+#tl-canvas{position:absolute;left:0;top:0;width:100%;height:100%;pointer-events:none;z-index:0}
+
+.tl-item{display:flex;align-items:flex-start;margin-bottom:2.5rem;position:relative;z-index:1}
 .tl-item:nth-child(odd){flex-direction:row-reverse}
-.tl-dot{position:absolute;left:50%;top:.8rem;transform:translateX(-50%);width:11px;height:11px;background:var(--rose);border:2px solid var(--cream);border-radius:50%;box-shadow:0 0 0 3px rgba(107,26,42,.15);z-index:1}
-.tl-c{width:calc(50% - 28px);background:#fff;border:1px solid rgba(107,26,42,.1);border-radius:16px;padding:1.2rem 1.4rem;box-shadow:0 2px 16px rgba(107,26,42,.06)}
+.tl-dot{
+  position:absolute;left:50%;top:.8rem;transform:translateX(-50%);
+  width:13px;height:13px;background:var(--rose);border:2px solid var(--cream);
+  border-radius:50%;box-shadow:0 0 0 4px rgba(107,26,42,.15),0 0 12px rgba(107,26,42,.2);
+  z-index:2;transition:box-shadow .3s;
+}
+.tl-dot.lit{box-shadow:0 0 0 5px rgba(107,26,42,.2),0 0 20px rgba(181,68,90,.5)}
+.tl-c{
+  width:calc(50% - 28px);background:#fff;
+  border:1px solid rgba(107,26,42,.1);border-radius:16px;
+  padding:1.2rem 1.4rem;box-shadow:0 2px 16px rgba(107,26,42,.06);
+  opacity:0;transform:translateY(20px) scale(.97);
+  transition:opacity .6s ease,transform .6s ease,box-shadow .3s;
+}
+.tl-c.show{opacity:1;transform:translateY(0) scale(1)}
+.tl-c:hover{box-shadow:0 8px 30px rgba(107,26,42,.12)}
 .tl-item:nth-child(odd) .tl-c{margin-left:auto}
 .tl-item:nth-child(even) .tl-c{margin-right:auto}
 .tl-date{font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--gold);margin-bottom:.3rem}
@@ -312,6 +353,17 @@ footer span{color:var(--petal)}
   </div>
 </section>
 
+<!-- 2 MESES HERO ANIMADO -->
+<section class="two-hero">
+  <canvas id="two-canvas"></canvas>
+  <div class="two-inner rv">
+    <p class="two-label">✦ Hoy celebramos ✦</p>
+    <h2 class="two-num">2</h2>
+    <p class="two-title">Meses juntos, Aracely</p>
+    <p class="two-sub">Rodrigo &amp; Aracely · 13 mayo 2026</p>
+  </div>
+</section>
+
 <!-- COUNTER -->
 <section class="cnt-bg">
   <div class="s-wrap rv" style="text-align:center">
@@ -408,7 +460,8 @@ footer span{color:var(--petal)}
       <p class="eyebrow">Nuestra historia</p>
       <h2 class="s-title">Dos meses de momentos</h2>
     </div>
-    <div class="tl-wrap">
+    <div class="tl-wrap" id="tl-wrap">
+      <canvas id="tl-canvas"></canvas>
       <div class="tl-item rl">
         <div class="tl-dot"></div>
         <div class="tl-c">
@@ -481,62 +534,106 @@ footer span{color:var(--petal)}
 </main>
 
 <script>
-/* ════ ROSAS CANVAS — llena toda la pantalla ════ */
-function createRoseCanvas(id){
-  const c=document.getElementById(id);
-  if(!c)return null;
-  const x=c.getContext('2d');
-  function resize(){
-    c.width=window.innerWidth;
-    c.height=window.innerHeight;
-  }
-  resize();
-  window.addEventListener('resize',resize);
 
-  const EMOJIS=['🌹','🌹','🌹','🌸','🌷','🌺','💐','🥀','❤️','💕'];
+/* ════ FUNCIÓN DIBUJAR ROSA REALISTA ════ */
+function drawRose(ctx,x,y,size,c1,c2,alpha){
+  ctx.save();ctx.translate(x,y);ctx.globalAlpha=alpha;
+  // pétalos exteriores
+  for(let i=0;i<12;i++){
+    const a=(i/12)*Math.PI*2;
+    const px=Math.cos(a)*size*.65,py=Math.sin(a)*size*.65;
+    const g=ctx.createRadialGradient(px*.4,py*.4,0,px,py,size*.55);
+    g.addColorStop(0,c1);g.addColorStop(1,c2);
+    ctx.beginPath();ctx.ellipse(px,py,size*.38,size*.28,a,0,Math.PI*2);
+    ctx.fillStyle=g;ctx.fill();
+  }
+  // pétalos medios
+  for(let i=0;i<7;i++){
+    const a=(i/7)*Math.PI*2+.3;
+    const px=Math.cos(a)*size*.32,py=Math.sin(a)*size*.32;
+    const g=ctx.createRadialGradient(0,0,0,px,py,size*.35);
+    g.addColorStop(0,c1);g.addColorStop(1,c2);
+    ctx.beginPath();ctx.ellipse(px,py,size*.25,size*.18,a,0,Math.PI*2);
+    ctx.fillStyle=g;ctx.fill();
+  }
+  // centro
+  const cg=ctx.createRadialGradient(0,0,0,0,0,size*.18);
+  cg.addColorStop(0,'#fff');cg.addColorStop(.4,c1);cg.addColorStop(1,c2);
+  ctx.beginPath();ctx.arc(0,0,size*.16,0,Math.PI*2);ctx.fillStyle=cg;ctx.fill();
+  ctx.restore();
+}
+
+/* ════ ROSAS CAYENDO EN PANTALLA ════ */
+function createRoseCanvas(id){
+  const c=document.getElementById(id);if(!c)return;
+  const ctx=c.getContext('2d');
+  function resize(){c.width=window.innerWidth;c.height=window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  const COLS=[['#c4455a','#6b1a2a'],['#b5223a','#5c0e20'],['#d4778a','#8b2035'],['#f2c4ce','#b5445a'],['#e8c8cc','#c4455a']];
   const roses=[];
-  // Llenamos con muchas rosas en posiciones aleatorias de toda la pantalla
-  for(let i=0;i<80;i++){
+  for(let i=0;i<60;i++){
+    const [c1,c2]=COLS[Math.floor(Math.random()*COLS.length)];
     roses.push({
-      x:Math.random()*window.innerWidth,
-      y:Math.random()*window.innerHeight, // empiezan repartidas por toda la pantalla
-      size:18+Math.random()*32,
-      vx:(Math.random()-.5)*.5,
-      vy:.4+Math.random()*1.2,
-      rot:Math.random()*Math.PI*2,
-      rs:(Math.random()-.5)*.025,
-      alpha:.55+Math.random()*.45,
-      emoji:EMOJIS[Math.floor(Math.random()*EMOJIS.length)],
-      delay:Math.random()*3000
+      x:Math.random()*window.innerWidth,y:Math.random()*window.innerHeight,
+      size:12+Math.random()*22,vx:(Math.random()-.5)*.45,vy:.45+Math.random()*1.1,
+      rot:Math.random()*Math.PI*2,rs:(Math.random()-.5)*.022,
+      alpha:.5+Math.random()*.5,c1,c2,delay:Math.random()*2000
     });
   }
-
-  let started=Date.now();
+  const t0=Date.now();
   function draw(){
-    x.clearRect(0,0,c.width,c.height);
+    ctx.clearRect(0,0,c.width,c.height);
     const now=Date.now();
     roses.forEach(r=>{
-      if(now-started<r.delay)return;
-      r.x+=r.vx+Math.sin(r.y*.015)*.3;
-      r.y+=r.vy;
-      r.rot+=r.rs;
-      if(r.y>c.height+50){r.y=-50;r.x=Math.random()*c.width;}
-      if(r.x<-50)r.x=c.width+50;
-      if(r.x>c.width+50)r.x=-50;
-      x.save();
-      x.translate(r.x,r.y);
-      x.rotate(r.rot);
-      x.globalAlpha=r.alpha;
-      x.font=r.size+'px serif';
-      x.fillText(r.emoji,-r.size/2,-r.size/2);
-      x.restore();
+      if(now-t0<r.delay)return;
+      r.x+=r.vx+Math.sin(r.y*.014)*.25;r.y+=r.vy;r.rot+=r.rs;
+      if(r.y>c.height+60){r.y=-60;r.x=Math.random()*c.width;}
+      if(r.x<-60)r.x=c.width+60;if(r.x>c.width+60)r.x=-60;
+      ctx.save();ctx.translate(r.x,r.y);ctx.rotate(r.rot);
+      drawRose(ctx,0,0,r.size,r.c1,r.c2,r.alpha);
+      ctx.restore();
     });
     requestAnimationFrame(draw);
   }
   draw();
 }
-
 createRoseCanvas('roses-canvas');
+
+/* ════ TWO-CANVAS: FUEGOS + PÉTALOS ════ */
+(function(){
+  const c=document.getElementById('two-canvas');if(!c)return;
+  const ctx=c.getContext('2d');
+  function resize(){c.width=c.offsetWidth||window.innerWidth;c.height=c.offsetHeight||window.innerHeight;}
+  resize();window.addEventListener('resize',resize);
+  let sparks=[],petals2=[],active=false,lastPetal=0,fwTimer=0;
+  function Spark(x,y){
+    const hue=320+Math.random()*50,a=Math.random()*Math.PI*2,sp=2+Math.random()*5;
+    return{x,y,vx:Math.cos(a)*sp,vy:Math.sin(a)*sp-2,alpha:1,size:1.5+Math.random()*2.5,color:`hsl(${hue},90%,${65+Math.random()*20}%)`};
+  }
+  function spawnFW(){
+    const x=.15*c.width+Math.random()*.7*c.width;
+    const y=.08*c.height+Math.random()*.4*c.height;
+    for(let i=0;i<80;i++)sparks.push(Spark(x,y));
+  }
+  function Petal2(){
+    const h=320+Math.random()*40;
+    return{x:Math.random()*c.width,y:-20,size:5+Math.random()*10,vy:.8+Math.random()*1.8,vx:(Math.random()-.5)*.6,rot:Math.random()*Math.PI*2,rs:(Math.random()-.5)*.04,alpha:.5+Math.random()*.5,color:`hsl(${h},${60+Math.random()*25}%,${65+Math.random()*20}%)`};
+  }
+  function animTwo(t){
+    ctx.clearRect(0,0,c.width,c.height);
+    if(active){
+      if(t-fwTimer>1000){spawnFW();fwTimer=t;}
+      sparks=sparks.filter(p=>{p.x+=p.vx;p.y+=p.vy;p.vy+=.09;p.alpha-=.016;ctx.globalAlpha=Math.max(0,p.alpha);ctx.beginPath();ctx.arc(p.x,p.y,p.size,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();return p.alpha>0;});
+      if(t-lastPetal>130){petals2.push(Petal2());lastPetal=t;}
+      petals2=petals2.filter(p=>{p.x+=p.vx+Math.sin(p.y*.02)*.4;p.y+=p.vy;p.rot+=p.rs;ctx.save();ctx.translate(p.x,p.y);ctx.rotate(p.rot);ctx.globalAlpha=p.alpha;ctx.beginPath();ctx.ellipse(0,0,p.size*.4,p.size*.8,0,0,Math.PI*2);ctx.fillStyle=p.color;ctx.fill();ctx.restore();return p.y<c.height+30;});
+    }
+    ctx.globalAlpha=1;
+    requestAnimationFrame(animTwo);
+  }
+  requestAnimationFrame(animTwo);
+  const sec=c.closest('section');
+  if(sec){new IntersectionObserver(es=>{es.forEach(e=>{active=e.isIntersecting;if(active&&sparks.length===0)spawnFW();});},{threshold:.3}).observe(sec);}
+})();
 
 /* ════ PASSWORD ════ */
 const CORRECT='2006';
@@ -672,6 +769,132 @@ document.querySelectorAll('.rv,.rl,.rr').forEach(el=>obs.observe(el));
 function openLB(src){document.getElementById('lb-img').src=src;document.getElementById('lb').classList.add('open')}
 function closeLB(){document.getElementById('lb').classList.remove('open')}
 document.addEventListener('keydown',e=>{if(e.key==='Escape')closeLB()});
+
+/* ════ TIMELINE HILO ANIMADO ════ */
+(function(){
+  const wrap=document.getElementById('tl-wrap');
+  const canvas=document.getElementById('tl-canvas');
+  if(!wrap||!canvas)return;
+  const ctx=canvas.getContext('2d');
+  const dots=Array.from(wrap.querySelectorAll('.tl-dot'));
+  const cards=Array.from(wrap.querySelectorAll('.tl-c'));
+
+  function resizeCanvas(){
+    canvas.width=wrap.offsetWidth;
+    canvas.height=wrap.offsetHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize',resizeCanvas);
+
+  // puntos centrales de cada dot
+  function getDotCenters(){
+    const wRect=wrap.getBoundingClientRect();
+    return dots.map(d=>{
+      const r=d.getBoundingClientRect();
+      return{
+        x:r.left-wRect.left+r.width/2,
+        y:r.top-wRect.top+r.height/2
+      };
+    });
+  }
+
+  let progress=0; // 0 → N-1 puntos conectados
+  let animating=false;
+
+  function drawThread(centers,prog){
+    ctx.clearRect(0,0,canvas.width,canvas.height);
+    if(centers.length<2||prog<=0)return;
+
+    // fondo suave del hilo
+    ctx.lineCap='round';
+    ctx.lineJoin='round';
+
+    const totalSegs=centers.length-1;
+    const fullProg=Math.min(prog,totalSegs);
+    const completedSegs=Math.floor(fullProg);
+    const partial=fullProg-completedSegs;
+
+    // puntos a dibujar hasta ahora
+    const pts=[];
+    for(let i=0;i<=completedSegs&&i<centers.length;i++) pts.push(centers[i]);
+    if(completedSegs<totalSegs && partial>0){
+      const a=centers[completedSegs],b=centers[completedSegs+1];
+      pts.push({x:a.x+(b.x-a.x)*partial,y:a.y+(b.y-a.y)*partial});
+    }
+    if(pts.length<2)return;
+
+    // sombra suave
+    ctx.shadowColor='rgba(181,68,90,.25)';
+    ctx.shadowBlur=6;
+
+    // línea principal vino
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    ctx.strokeStyle='rgba(107,26,42,.55)';
+    ctx.lineWidth=1.5;
+    ctx.stroke();
+
+    // brillo encima
+    ctx.shadowBlur=0;
+    ctx.beginPath();
+    ctx.moveTo(pts[0].x,pts[0].y);
+    for(let i=1;i<pts.length;i++) ctx.lineTo(pts[i].x,pts[i].y);
+    ctx.strokeStyle='rgba(212,119,138,.4)';
+    ctx.lineWidth=.6;
+    ctx.stroke();
+
+    // punto brillante en la punta
+    const tip=pts[pts.length-1];
+    ctx.beginPath();
+    ctx.arc(tip.x,tip.y,4,0,Math.PI*2);
+    ctx.fillStyle='rgba(181,68,90,.8)';
+    ctx.fill();
+  }
+
+  function animateTo(target){
+    if(animating)return;
+    animating=true;
+    const start=progress;
+    const duration=600;
+    const t0=performance.now();
+    const centers=getDotCenters();
+    function step(now){
+      const t=Math.min((now-t0)/duration,1);
+      const ease=1-Math.pow(1-t,3);
+      progress=start+(target-start)*ease;
+      drawThread(centers,progress);
+      if(t<1){requestAnimationFrame(step);}
+      else{progress=target;animating=false;}
+    }
+    requestAnimationFrame(step);
+  }
+
+  // IntersectionObserver para cada dot y card
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{
+      if(!e.isIntersecting)return;
+      const dotIdx=dots.indexOf(e.target);
+      const cardIdx=cards.indexOf(e.target);
+      if(dotIdx>=0){
+        e.target.classList.add('lit');
+        animateTo(dotIdx);
+        io.unobserve(e.target);
+      }
+      if(cardIdx>=0){
+        setTimeout(()=>e.target.classList.add('show'),150);
+        io.unobserve(e.target);
+      }
+    });
+  },{threshold:.5});
+
+  dots.forEach(d=>io.observe(d));
+  cards.forEach(c=>io.observe(c));
+
+  // dibujo inicial
+  resizeCanvas();
+  drawThread(getDotCenters(),0);
+})();
 
 /* ════ MÚSICA ════ */
 let playing=false;
